@@ -1,0 +1,10 @@
+# 0.17
+resourcepackEnabled: false
+resourcepackLink: ""
+resourcepackMD5: ""
+
+# Don't touch the following settings,
+# unless you know what you are doing!
+verbose: false
+noCaching: false
+

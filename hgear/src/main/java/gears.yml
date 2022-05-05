@@ -1,0 +1,25 @@
+emerald_sword:
+  main:
+    material: GOLDEN_SWORD
+    intdata: 211200505
+  display:
+    itemname: Emerald Sword
+    description:
+      - Has a green lustre.
+  enchantments:
+    unbreaking: 5
+  attribute_modifiers:
+    attack_speed: 1.6
+    attack_damage: 4
+    
+copper_helmet:
+  main:
+    material: IRON_HELMET
+    intdata: 211200405
+  display:
+    itemname: Copper Helmet
+    description:
+      - Quite heavy.
+  enchantments:
+    unbreaking: 1
+    protection: 1
