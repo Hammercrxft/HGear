@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import me.hammercroft.hgear.commands.GearListCommand;
+import me.hammercroft.hgear.commands.StatusCommand;
 import me.hammercroft.hgear.datatypes.Gear;
 import me.hammercroft.plugintools.PluginTools;
 import me.hammercroft.plugintools.PluginTools.PTLS;
@@ -54,6 +55,7 @@ public final class HGear extends JavaPlugin {
 
     slog.log("[HGear] Loading commands...");
     this.getCommand("hgearlist").setExecutor(new GearListCommand());
+    this.getCommand("hgearstatus").setExecutor(new StatusCommand());
 
     prefInit.engage();
     gearInit.engage();

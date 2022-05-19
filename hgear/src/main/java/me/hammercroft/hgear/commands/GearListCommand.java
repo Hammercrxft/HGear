@@ -3,7 +3,6 @@ package me.hammercroft.hgear.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import me.hammercroft.hgear.HGear;
 import me.hammercroft.hgear.datatypes.Gear;
 import me.hammercroft.plugintools.PluginTools.PTLS;
@@ -16,10 +15,10 @@ public class GearListCommand implements CommandExecutor {
     PTLS.SL.logArray(args);
 
     // for players
-    if ((sender instanceof Player) || args.length > 1) {
-      sender.sendMessage("is player/page sent");
-      return true;
-    }
+    // if ((sender instanceof Player) || args.length > 1) {
+    // sender.sendMessage("is player/page sent");
+    // return true;
+    // }
 
     // when non-players
     try {
