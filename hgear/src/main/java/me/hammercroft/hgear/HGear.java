@@ -1,9 +1,12 @@
 package me.hammercroft.hgear;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import me.hammercroft.hgear.commands.GearListCommand;
+import me.hammercroft.hgear.commands.GiveGearCommand;
 import me.hammercroft.hgear.commands.StatusCommand;
 import me.hammercroft.hgear.datatypes.Gear;
 import me.hammercroft.plugintools.PluginTools;
@@ -31,6 +34,7 @@ public final class HGear extends JavaPlugin {
 
   // [CONSTANTS, CACHES, COLLECTIONS AND VARIABLES]
 
+  public static PluginDescriptionFile pluginPDF; // plugin.yml values
   public static ArrayList<Gear> globalGearList = new ArrayList<Gear>();
   public static int globalGearTotal = 0;
   public static String globalGearListCache = null; // cache of /hgearlist output when sender is
@@ -49,6 +53,7 @@ public final class HGear extends JavaPlugin {
     gearConfig = new UniConfig("gears.yml", this, dbg, false);
     cacher = new DataCacher();
 
+    pluginPDF = this.getDescription();
     gearInit = GearInitialization.getInstance(this);
     prefInit = PreferenceInitialization.getInstance(this);
     slog.log("[HGear] Pre-initialization done.");
@@ -56,6 +61,7 @@ public final class HGear extends JavaPlugin {
     slog.log("[HGear] Loading commands...");
     this.getCommand("hgearlist").setExecutor(new GearListCommand());
     this.getCommand("hgearstatus").setExecutor(new StatusCommand());
+    this.getCommand("hgeargive").setExecutor(new GiveGearCommand(this));
 
     prefInit.engage();
     gearInit.engage();
@@ -74,4 +80,18 @@ public final class HGear extends JavaPlugin {
     hgr = null;
     System.gc();
   }
+
+  // [SMALL FUNCTIONS]
+
+  // for finding a gear by its internal name
+  public static Gear findUsingEnhancedForLoop(String name, List<Gear> gears) {
+    for (Gear subject : gears) {
+      if (subject.gearInternalName.equals(name)) {
+        return subject;
+      }
+    }
+    return null;
+  }
 }
+
+

@@ -1,9 +1,10 @@
 package me.hammercroft.hgear.datatypes;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import me.hammercroft.hgear.HGear;
 
 /**
@@ -49,6 +50,9 @@ public class Gear {
   public Gear(String internalName) {
     gearItemStack = new ItemStack(Material.STICK);
     gearInternalName = internalName;
+    ItemMeta gie = gearItemStack.getItemMeta();
+    gie.setDisplayName("Unnamed Gear");
+    gearItemStack.setItemMeta(gie);
   }// end of constructor definition
 
   // [DATA]
@@ -60,7 +64,11 @@ public class Gear {
   public Integer gearIntegerId = 0;
 
   /** Contains the namespaced keys of recipes that outputs this gear. For informational use. */
-  public HashSet<NamespacedKey> gearRecipeKeys = new HashSet<NamespacedKey>();
+  public ArrayList<NamespacedKey> gearRecipeKeys = new ArrayList<NamespacedKey>();
+
+  public String[] gearAttributes = null;
+
+  public String[] gearTraits = null;
 
 
   // [METHODS]

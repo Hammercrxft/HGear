@@ -3,6 +3,7 @@ package me.hammercroft.hgear;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import me.hammercroft.hgear.datatypes.Gear;
+import me.hammercroft.hgear.propertyloaders.DisplaySectionLoader;
 import me.hammercroft.hgear.propertyloaders.MainSectionLoader;
 import me.hammercroft.hgear.propertyloaders.PropertyLoaderBase;
 import me.hammercroft.plugintools.PluginTools.PluginToolsSetUtil;
@@ -74,12 +75,20 @@ public class GearInitialization {
           String currentProperty = propertyEntries[k];
           PropertyLoaderBase loader;
           switch (currentProperty) {
+            // TODO add cases as we add property loaders
             case "main":
               if (propertySection.contains(currentProperty, true)) {
                 loader = new MainSectionLoader();
                 gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
                     gearEntries[ce]);
                 hasMain = true;
+              }
+              break;
+            case "display":
+              if (propertySection.contains(currentProperty, true)) {
+                loader = new DisplaySectionLoader();
+                gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
+                    gearEntries[ce]);
               }
               break;
           }// end of currentProperty switch iteration

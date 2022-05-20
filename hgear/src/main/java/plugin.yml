@@ -1,6 +1,6 @@
 name: "HammercroftsGear"
 main: "me.hammercroft.hgear.HGear"
-version: 0.0.17
+version: 0.0.19
 api-version: 1.17
 description: "Expands upon Minecraft's gear. Allows the creation of custom weapons."
 authors: ["Hammercroft"]
@@ -15,3 +15,7 @@ commands:
     description: Sends information about the plugin's operational status.
     usage: "/hgearstatus"
     permission: hgear.status
+  hgeargive:
+    description: Gives an amount of a gear item to a player.
+    usage: "/hgeargive <target> <gear> [amount]"
+    permission: hgear.give

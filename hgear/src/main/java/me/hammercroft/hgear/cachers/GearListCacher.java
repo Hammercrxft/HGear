@@ -1,6 +1,7 @@
 package me.hammercroft.hgear.cachers;
 
 import me.hammercroft.hgear.HGear;
+import me.hammercroft.hgear.datatypes.DataCacherBase;
 import me.hammercroft.hgear.datatypes.Gear;
 import me.hammercroft.plugintools.PluginTools.PTLS;
 
