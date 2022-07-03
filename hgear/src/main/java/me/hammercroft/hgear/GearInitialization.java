@@ -6,6 +6,7 @@ import me.hammercroft.hgear.datatypes.Gear;
 import me.hammercroft.hgear.propertyloaders.DisplaySectionLoader;
 import me.hammercroft.hgear.propertyloaders.MainSectionLoader;
 import me.hammercroft.hgear.propertyloaders.PropertyLoaderBase;
+import me.hammercroft.hgear.propertyloaders.DirectAttributeLoader;
 import me.hammercroft.plugintools.PluginTools.PluginToolsSetUtil;
 import me.hammercroft.plugintools.UniConfig;
 
@@ -76,8 +77,10 @@ public class GearInitialization {
           PropertyLoaderBase loader;
           switch (currentProperty) {
             // TODO add cases as we add property loaders
+          	// The current property checks are deliberately redundant as to avoid loading default values :/
             case "main":
               if (propertySection.contains(currentProperty, true)) {
+            	  hgr.dbg.log("main property"); //TODO DEL ME
                 loader = new MainSectionLoader();
                 gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
                     gearEntries[ce]);
@@ -86,11 +89,20 @@ public class GearInitialization {
               break;
             case "display":
               if (propertySection.contains(currentProperty, true)) {
+            	  hgr.dbg.log("display property"); //TODO DEL ME
                 loader = new DisplaySectionLoader();
                 gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
                     gearEntries[ce]);
               }
               break;
+            case "direct_attribute":
+                if (propertySection.contains(currentProperty, true)) {
+                	hgr.dbg.log("direct_attribute property"); //TODO DEL ME
+                  loader = new DirectAttributeLoader();
+                  gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
+                      gearEntries[ce]);
+                }
+                break;
           }// end of currentProperty switch iteration
         } // end of properties for-iteration
         if (hasMain) {

@@ -8,9 +8,15 @@ emerald_sword:
       - Has a green lustre.
   enchantments:
     unbreaking: 5
-  attribute_modifiers:
-    attack_speed: 1.6
-    attack_damage: 4
+  direct_attributes:
+    GENERIC_ATTACK_SPEED:
+       amount: 1.6
+       name: "Attack Speed"
+       slot: "HAND"
+    GENERIC_ATTACK_DAMAGE:
+       amount: 4
+       name: "Attack Damage"
+       slot: "HAND"
     
 copper_helmet:
   main:
