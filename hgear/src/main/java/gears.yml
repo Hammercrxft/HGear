@@ -10,11 +10,11 @@ emerald_sword:
     unbreaking: 5
   direct_attributes:
     GENERIC_ATTACK_SPEED:
-       amount: 1.6
+       amount: 2
        name: "Attack Speed"
        slot: "HAND"
     GENERIC_ATTACK_DAMAGE:
-       amount: 4
+       amount: 6
        name: "Attack Damage"
        slot: "HAND"
     

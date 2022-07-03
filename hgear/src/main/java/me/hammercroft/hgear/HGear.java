@@ -9,6 +9,7 @@ import me.hammercroft.hgear.commands.GearListCommand;
 import me.hammercroft.hgear.commands.GiveGearCommand;
 import me.hammercroft.hgear.commands.StatusCommand;
 import me.hammercroft.hgear.datatypes.Gear;
+import me.hammercroft.hgear.handlers.ResourcepackHandling;
 import me.hammercroft.plugintools.PluginTools;
 import me.hammercroft.plugintools.PluginTools.PTLS;
 import me.hammercroft.plugintools.ShortenedLogger;
@@ -40,6 +41,9 @@ public final class HGear extends JavaPlugin {
   public static String globalGearListCache = null; // cache of /hgearlist output when sender is
                                                    // console or a non-player thing.
   public static String globalStatusCache = null; // cache of the static part in /hgearstatus output
+  public static String globalResourcePackURL = null;
+  public static String globalResourcePackMD5 = "";
+  public static boolean globalResourcePackEnabled = true;
 
   // [DRIVER CODE]
   @Override
@@ -62,12 +66,21 @@ public final class HGear extends JavaPlugin {
     this.getCommand("hgearlist").setExecutor(new GearListCommand());
     this.getCommand("hgearstatus").setExecutor(new StatusCommand());
     this.getCommand("hgeargive").setExecutor(new GiveGearCommand(this));
-
+    
     prefInit.engage();
     gearInit.engage();
+    
+    slog.log("[HGear] Loading handlers...");
+    if (globalResourcePackEnabled) {
+    	dbg.log("rs enabled");
+    	this.getServer().getPluginManager().registerEvents(new ResourcepackHandling(this),this);
+    }
+    
     cacher.engage();
 
     slog.log("[HGear] Loading finished!");
+    if (globalResourcePackEnabled) {slog.log("[HGear] Resourcepacks are enabled.");}
+    else {slog.log("[HGear] Resourcepacks are disabled.");}
 
   }
 

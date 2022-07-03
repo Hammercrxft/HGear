@@ -1,10 +1,14 @@
-# 0.17
-resourcepackEnabled: false
-resourcepackLink: ""
+# 0.2.2
+
+#=====RESOURCE PACKS=====
+#   Leave resourcepackMD5 in doublequotes ("") to disable hash checks.
+#   Note that the resourcepack here may not load if the server already provides one.
+resourcepackEnabled: true
+resourcepackLink: "https://www.dropbox.com/s/rgc3fyu3kyeltht/tsrespak.zip?dl=1"
 resourcepackMD5: ""
 
-# Don't touch the following settings,
-# unless you know what you are doing!
+#=====DEVELOPER & DEBUGGING OPTIONS=====
+#   Don't touch the following settings,
+#   unless you know what you are doing!
 verbose: false
 noCaching: false
-

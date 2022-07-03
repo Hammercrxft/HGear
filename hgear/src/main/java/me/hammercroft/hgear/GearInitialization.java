@@ -62,7 +62,7 @@ public class GearInitialization {
 
     // iterate for each gear
     for (int ce = 0; ce < HGear.globalGearTotal; ce++) {
-      hgr.slog.log("[HGear] Loading gear" + gearEntries[ce]);
+      hgr.slog.log("[HGear] Loading gear " + gearEntries[ce]);
       try {
         Gear gear = new Gear(gearEntries[ce]);
         ConfigurationSection propertySection = gearConfig.getConfigurationSection(gearEntries[ce]);
@@ -95,9 +95,9 @@ public class GearInitialization {
                     gearEntries[ce]);
               }
               break;
-            case "direct_attribute":
+            case "direct_attributes":
                 if (propertySection.contains(currentProperty, true)) {
-                	hgr.dbg.log("direct_attribute property"); //TODO DEL ME
+                	hgr.dbg.log("direct_attributes property"); //TODO DEL ME
                   loader = new DirectAttributeLoader();
                   gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
                       gearEntries[ce]);

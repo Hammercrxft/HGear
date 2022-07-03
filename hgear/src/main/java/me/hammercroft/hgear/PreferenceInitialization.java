@@ -45,6 +45,12 @@ public class PreferenceInitialization {
     hgr.saveDefaultConfig();
     ConfigurationSection prefConfigCache = hgr.getConfig();
 
+    //resourcepack
+    //NOTE -> SELF : yml fields start no cap dummy
+    HGear.globalResourcePackURL = prefConfigCache.getString("resourcepackLink");
+    HGear.globalResourcePackMD5 = prefConfigCache.getString("resourcepackMD5");
+    HGear.globalResourcePackEnabled = prefConfigCache.getBoolean("resourcepackEnabled");
+    
     // verbose
     hgr.dbg.verbose = prefConfigCache.getBoolean("verbose");
     if (hgr.dbg.verbose) {
