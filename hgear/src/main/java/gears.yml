@@ -17,6 +17,9 @@ emerald_sword:
        amount: 6
        name: "Attack Damage"
        slot: "HAND"
+  flags:
+    - HIDE_ATTRIBUTES
+    
     
 copper_helmet:
   main:
