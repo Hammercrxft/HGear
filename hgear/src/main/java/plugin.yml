@@ -1,6 +1,6 @@
 name: "HammercroftsGear"
 main: "me.hammercroft.hgear.HGear"
-version: 0.2.2
+version: 0.2.3
 api-version: 1.17
 description: "Expands upon Minecraft's gear. Allows the creation of custom weapons."
 authors: ["Hammercroft"]

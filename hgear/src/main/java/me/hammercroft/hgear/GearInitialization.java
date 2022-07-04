@@ -4,6 +4,7 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import me.hammercroft.hgear.datatypes.Gear;
 import me.hammercroft.hgear.propertyloaders.DisplaySectionLoader;
+import me.hammercroft.hgear.propertyloaders.EnchantmentSectionLoader;
 import me.hammercroft.hgear.propertyloaders.MainSectionLoader;
 import me.hammercroft.hgear.propertyloaders.PropertyLoaderBase;
 import me.hammercroft.hgear.propertyloaders.DirectAttributeLoader;
@@ -99,6 +100,14 @@ public class GearInitialization {
                 if (propertySection.contains(currentProperty, true)) {
                 	hgr.dbg.log("direct_attributes property"); //TODO DEL ME
                   loader = new DirectAttributeLoader();
+                  gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
+                      gearEntries[ce]);
+                }
+                break;
+            case "enchantments":
+                if (propertySection.contains(currentProperty, true)) {
+                	hgr.dbg.log("enchantments property"); //TODO DEL ME
+                  loader = new EnchantmentSectionLoader();
                   gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
                       gearEntries[ce]);
                 }

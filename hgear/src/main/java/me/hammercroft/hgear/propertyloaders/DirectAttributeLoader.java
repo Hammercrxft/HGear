@@ -46,7 +46,8 @@ public class DirectAttributeLoader extends PropertyLoaderBase {
     				throw propertyKeyValueComplaint(
     						attributeEntries[k],
     						"Section name was not a valid attribute type.",
-    						alias
+    						alias,
+    						gearInternalName
     						);
     			}
     	}
