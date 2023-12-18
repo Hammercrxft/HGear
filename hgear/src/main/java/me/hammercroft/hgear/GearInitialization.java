@@ -1,15 +1,21 @@
 package me.hammercroft.hgear;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import me.hammercroft.hgear.datatypes.Gear;
 import me.hammercroft.hgear.propertyloaders.DisplaySectionLoader;
 import me.hammercroft.hgear.propertyloaders.EnchantmentSectionLoader;
+import me.hammercroft.hgear.propertyloaders.ItemFlagLoader;
 import me.hammercroft.hgear.propertyloaders.MainSectionLoader;
-import me.hammercroft.hgear.propertyloaders.PropertyLoaderBase;
+import me.hammercroft.hgear.propertyloaders.PropertyLoader;
 import me.hammercroft.hgear.propertyloaders.DirectAttributeLoader;
 import me.hammercroft.plugintools.PluginTools.PluginToolsSetUtil;
 import me.hammercroft.plugintools.UniConfig;
+
+
 
 /**
  * Singleton containing a function that loads all gear from disk by applying gear property data
@@ -19,111 +25,126 @@ import me.hammercroft.plugintools.UniConfig;
  *
  */
 public class GearInitialization {
-  private GearInitialization(HGear the_hgr) {
-    hgr = the_hgr;
-    gearConfigField = hgr.gearConfig;
-  }
+	private final List<PropertyLoader> propertyLoaders = new ArrayList<>();
 
-  /**
-   * Returns the only instance of this singleton, initializing the singleton if nonexistent.
-   * 
-   * @param the_hgr HGear's class
-   * @return GearInitialization singleton
-   */
-  public static GearInitialization getInstance(HGear the_hgr) {
-    if (singleInstance == null) {
-      singleInstance = new GearInitialization(the_hgr);
-    }
+	private GearInitialization(HGear the_hgr) {
+		hgr = the_hgr;
+		gearConfigField = hgr.gearConfig;
+		
+		propertyLoaders.add(new MainSectionLoader());
+		propertyLoaders.add(new ItemFlagLoader());
+		propertyLoaders.add(new EnchantmentSectionLoader());
+		propertyLoaders.add(new DisplaySectionLoader());
+		propertyLoaders.add(new DirectAttributeLoader());
+	}
 
-    return singleInstance;
-  }
+	/**
+	 * Returns the only instance of this singleton, initializing the singleton if nonexistent.
+	 * 
+	 * @param the_hgr HGear's class
+	 * @return GearInitialization singleton
+	 */
+	public static GearInitialization getInstance(HGear the_hgr) {
+		if (singleInstance == null) {
+			singleInstance = new GearInitialization(the_hgr);
+		}
 
-  /**
-   * Discards the current instance of this singleton.
-   */
-  public void killInstance() {
-    GearInitialization.singleInstance = null;
-  }
+		return singleInstance;
+	}
 
-  private static GearInitialization singleInstance = null;
-  HGear hgr;
-  UniConfig gearConfigField;
+	/**
+	 * Discards the current instance of this singleton.
+	 */
+	public void killInstance() {
+		GearInitialization.singleInstance = null;
+	}
 
-  /**
-   * Provide the class' Gear-initializing actions.
-   */
-  public void engage() {
-    hgr.slog.log("[HGear] Loading gears...");
-    gearConfigField.saveDefaultConfig();
+	private static GearInitialization singleInstance = null;
+	HGear hgr;
+	UniConfig gearConfigField;
 
-    Configuration gearConfig = gearConfigField.getConfig();
-    String[] gearEntries = PluginToolsSetUtil.stringSet2Array(gearConfig.getKeys(false));
-    HGear.globalGearTotal = gearEntries.length;
-    hgr.slog.log("[HGear] gear.yml has " + HGear.globalGearTotal + " entries.");
+	/**
+	 * The initial gear-initializing process.
+	 */
+	public void engage() {
+		hgr.slog.log("[HGear] Loading gears...");
+		gearConfigField.saveDefaultConfig();
 
-    // iterate for each gear
-    for (int ce = 0; ce < HGear.globalGearTotal; ce++) {
-      hgr.slog.log("[HGear] Loading gear " + gearEntries[ce]);
-      try {
-        Gear gear = new Gear(gearEntries[ce]);
-        ConfigurationSection propertySection = gearConfig.getConfigurationSection(gearEntries[ce]);
-        String[] propertyEntries =
-            PluginToolsSetUtil.stringSet2Array(propertySection.getKeys(false));
-        int propertyTotal = propertyEntries.length;
-        boolean hasMain = false;
+		Configuration gearConfig = gearConfigField.getConfig();
+		String[] gearEntries = PluginToolsSetUtil.stringSet2Array(gearConfig.getKeys(false));
+		HGear.globalGearTotal = gearEntries.length;
+		hgr.slog.log("[HGear] gear.yml has " + HGear.globalGearTotal + " entries.");
 
-        // iterate for each gear's properties
-        for (int k = 0; k < propertyTotal; k++) {
-          String currentProperty = propertyEntries[k];
-          PropertyLoaderBase loader;
-          switch (currentProperty) {
-            // TODO add cases as we add property loaders
-          	// The current property checks are deliberately redundant as to avoid loading default values :/
-            case "main":
-              if (propertySection.contains(currentProperty, true)) {
-            	  hgr.dbg.log("main property"); //TODO DEL ME
-                loader = new MainSectionLoader();
-                gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
-                    gearEntries[ce]);
-                hasMain = true;
-              }
-              break;
-            case "display":
-              if (propertySection.contains(currentProperty, true)) {
-            	  hgr.dbg.log("display property"); //TODO DEL ME
-                loader = new DisplaySectionLoader();
-                gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
-                    gearEntries[ce]);
-              }
-              break;
-            case "direct_attributes":
-                if (propertySection.contains(currentProperty, true)) {
-                	hgr.dbg.log("direct_attributes property"); //TODO DEL ME
-                  loader = new DirectAttributeLoader();
-                  gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
-                      gearEntries[ce]);
-                }
-                break;
-            case "enchantments":
-                if (propertySection.contains(currentProperty, true)) {
-                	hgr.dbg.log("enchantments property"); //TODO DEL ME
-                  loader = new EnchantmentSectionLoader();
-                  gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
-                      gearEntries[ce]);
-                }
-                break;
-          }// end of currentProperty switch iteration
-        } // end of properties for-iteration
-        if (hasMain) {
-          gear.addToGlobalGearList();
-        } else {
-          hgr.slog.severe("[HGear] Refusing this gear entry as it has no 'main' property section.");
-        }
-      } // end of per-gear trial
-      catch (Exception owch) {
-        hgr.slog.severe("[HGear] Skipping iteration of this gear due to exception:");
-        hgr.slog.echoStackTrace(owch);
-      } // end of per-gear exception handling
-    } // end of per-gear for-iteration
-  }// end of engage() method
+		// iterate for each gear
+		for (int ce = 0; ce < HGear.globalGearTotal; ce++) {
+			hgr.slog.log("[HGear] Loading gear " + gearEntries[ce]);
+			try {
+				Gear gear = new Gear(gearEntries[ce]);
+				ConfigurationSection propertySection = gearConfig.getConfigurationSection(gearEntries[ce]);
+				String[] propertyEntries =
+						PluginToolsSetUtil.stringSet2Array(propertySection.getKeys(false));
+				int propertyTotal = propertyEntries.length;
+				boolean hasMain = false;
+
+				// iterate for each gear's properties
+				for (int k = 0; k < propertyTotal; k++) {
+					String currentProperty = propertyEntries[k];					
+					for(PropertyLoader loader : propertyLoaders) {
+						if (loader.getPropertyKey().equals(currentProperty)) {
+							hgr.dbg.log(loader.getPropertyKey()); //TODO DEL ME
+							gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear, gearEntries[ce]);
+							if (loader.getPropertyKey().equals("main"))
+								hasMain = true;
+						}
+					}
+					//          switch (currentProperty) {
+					//            // TODO add cases as we add property loaders
+					//          	// The current property checks are deliberately redundant as to avoid loading default values :/
+					//            case "main":
+					//              if (propertySection.contains(currentProperty, true)) {
+					//            	  hgr.dbg.log("main property"); //TODO DEL ME
+					//                loader = new MainSectionLoader();
+					//                gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
+					//                    gearEntries[ce]);
+					//                hasMain = true;
+					//              }
+					//              break;
+					//            case "display":
+					//              if (propertySection.contains(currentProperty, true)) {
+					//            	  hgr.dbg.log("display property"); //TODO DEL ME
+					//                loader = new DisplaySectionLoader();
+					//                gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
+					//                    gearEntries[ce]);
+					//              }
+					//              break;
+					//            case "direct_attributes":
+					//                if (propertySection.contains(currentProperty, true)) {
+					//                	hgr.dbg.log("direct_attributes property"); //TODO DEL ME
+					//                  loader = new DirectAttributeLoader();
+					//                  gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
+					//                      gearEntries[ce]);
+					//                }
+					//                break;
+					//            case "enchantments":
+					//                if (propertySection.contains(currentProperty, true)) {
+					//                	hgr.dbg.log("enchantments property"); //TODO DEL ME
+					//                  loader = new EnchantmentSectionLoader();
+					//                  gear = loader.engage(propertySection.getConfigurationSection(currentProperty), gear,
+					//                      gearEntries[ce]);
+					//                }
+					//                break;
+					//          }// end of currentProperty switch iteration
+				} // end of properties for-iteration
+				if (hasMain) {
+					gear.addToGlobalGearList();
+				} else {
+					hgr.slog.severe("[HGear] Refusing this gear entry as it has no 'main' property section.");
+				}
+			} // end of per-gear trial
+			catch (Exception owch) {
+				hgr.slog.severe("[HGear] Skipping iteration of this gear due to exception:");
+				hgr.slog.echoStackTrace(owch);
+			} // end of per-gear exception handling
+		} // end of per-gear for-iteration
+	}// end of engage() method
 } // end of main class

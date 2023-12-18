@@ -1,6 +1,6 @@
 package me.hammercroft.hgear.propertyloaders;
 
-public abstract class PropertyLoaderBase implements PropertyLoaderInterface {
+public abstract class PropertyLoader implements PropertyLoaderInterface {
 
   /**
    * Throws an exception with a message and information about the current iterating entry.

@@ -1,28 +1,27 @@
 package me.hammercroft.hgear.propertyloaders;
 
+import java.util.List;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.ItemMeta;
 import me.hammercroft.hgear.datatypes.Gear;
-import me.hammercroft.plugintools.PluginTools.PluginToolsSetUtil;
 
-public class ItemFlagLoader extends PropertyLoaderBase {
+public class ItemFlagLoader extends PropertyLoader {
 
   @Override
   public Gear engage(ConfigurationSection section, Gear gear, String gearInternalName)
       throws IllegalArgumentException {
     ItemMeta gearMeta = gear.gearItemStack.getItemMeta();
-    String[] flagEntries = 
-    		PluginToolsSetUtil.stringSet2Array(section.getKeys(false));
-    int total = flagEntries.length;
+    List<String> flagEntries = section.getStringList("vanilla");
     
-    for (int c = 0; c < total; c++) {
+    for (String entry : flagEntries) {
     	try {
-    		gearMeta.addItemFlags(ItemFlag.valueOf(flagEntries[total]));
+    		gearMeta.addItemFlags(ItemFlag.valueOf(entry));
     	}
     	catch (IllegalArgumentException owch) {
     		throw propertyKeyValueComplaint(
-    				flagEntries[total],
+    				entry,
     				"flag entry is not a valid item flag.",
     				alias,
     				gearInternalName
@@ -34,5 +33,11 @@ public class ItemFlagLoader extends PropertyLoaderBase {
     return gear;
   }
   String alias = "flags";
+  
+  @Override
+  public String getPropertyKey() {
+  	// TODO Auto-generated method stub
+  	return alias;
+  }
 
 }

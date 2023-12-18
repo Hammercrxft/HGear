@@ -12,7 +12,7 @@ import me.hammercroft.hgear.datatypes.Gear;
 import me.hammercroft.plugintools.PluginTools.PTLS;
 import me.hammercroft.plugintools.PluginTools.PluginToolsSetUtil;
 
-public class DirectAttributeLoader extends PropertyLoaderBase {
+public class DirectAttributeLoader extends PropertyLoader {
 
   @Override
   public Gear engage(ConfigurationSection section, Gear gear, String gearInternalName)
@@ -33,7 +33,7 @@ public class DirectAttributeLoader extends PropertyLoaderBase {
     				UUID.randomUUID(),
     				section.getString(attributeEntries[k] + ".name"),
     				section.getDouble(attributeEntries[k] + ".amount"),
-    				amovosgako(section, attributeEntries, k, gearInternalName),
+    				amovosgako(section, attributeEntries, k, gearInternalName), //i forgot what this does
     				evsgaks(section, attributeEntries, k, gearInternalName)
     				);
     	
@@ -109,5 +109,11 @@ public class DirectAttributeLoader extends PropertyLoaderBase {
   }//end of e function
   
 String alias = "direct_attributes";
+
+@Override
+public String getPropertyKey() {
+	// TODO Auto-generated method stub
+	return alias;
+}
 
 }

@@ -5,7 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.meta.ItemMeta;
 import me.hammercroft.hgear.datatypes.Gear;
 
-public class DisplaySectionLoader extends PropertyLoaderBase {
+public class DisplaySectionLoader extends PropertyLoader {
 
   @Override
   public Gear engage(ConfigurationSection section, Gear gear, String gearInternalName)
@@ -21,6 +21,12 @@ public class DisplaySectionLoader extends PropertyLoaderBase {
     }
     gear.gearItemStack.setItemMeta(gearMeta);
     return gear;
+  }
+  
+  @Override
+  public String getPropertyKey() {
+  	// TODO Auto-generated method stub
+  	return "display";
   }
 
 }

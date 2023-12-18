@@ -7,7 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import me.hammercroft.hgear.datatypes.Gear;
 import me.hammercroft.plugintools.PluginTools.PluginToolsSetUtil;
 
-public class EnchantmentSectionLoader extends PropertyLoaderBase {
+public class EnchantmentSectionLoader extends PropertyLoader {
 
   @Override
   public Gear engage(ConfigurationSection section, Gear gear, String gearInternalName)
@@ -42,5 +42,11 @@ public class EnchantmentSectionLoader extends PropertyLoaderBase {
     return gear;
   }
   String alias = "enchantments";
+  
+  @Override
+  public String getPropertyKey() {
+  	// TODO Auto-generated method stub
+  	return alias;
+  }
 
 }

@@ -39,7 +39,7 @@ public final class HGear extends JavaPlugin {
   public static ArrayList<Gear> globalGearList = new ArrayList<Gear>();
   public static int globalGearTotal = 0;
   public static String globalGearListCache = null; // cache of /hgearlist output when sender is
-                                                   // console or a non-player thing.
+                                                   // console or a non-player thing
   public static String globalStatusCache = null; // cache of the static part in /hgearstatus output
   public static String globalResourcePackURL = null;
   public static String globalResourcePackMD5 = "";

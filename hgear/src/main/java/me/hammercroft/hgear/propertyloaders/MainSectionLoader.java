@@ -5,7 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import me.hammercroft.hgear.datatypes.Gear;
 import me.hammercroft.plugintools.PluginTools.PTLS;
 
-public class MainSectionLoader extends PropertyLoaderBase {
+public class MainSectionLoader extends PropertyLoader {
   @Override
   public Gear engage(ConfigurationSection section, Gear gear, String gearInternalName)
       throws IllegalArgumentException {
@@ -46,4 +46,10 @@ public class MainSectionLoader extends PropertyLoaderBase {
   }
 
   String alias = "main";
+  
+  @Override
+  public String getPropertyKey() {
+  	// TODO Auto-generated method stub
+  	return alias;
+  }
 }

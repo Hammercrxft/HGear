@@ -18,7 +18,8 @@ emerald_sword:
        name: "Attack Damage"
        slot: "HAND"
   flags:
-    - HIDE_ATTRIBUTES
+    vanilla:
+      - HIDE_ATTRIBUTES
     
     
 copper_helmet:
